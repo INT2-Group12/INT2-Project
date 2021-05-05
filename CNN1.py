@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 
 class CNN1(nn.Module):
+# 80% accuracy with 5 epochs, SGD and CrossEntropyLoss
 
     def __init__(self):
         super(CNN1, self).__init__()
