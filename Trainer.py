@@ -30,25 +30,28 @@ class Trainer:
 
         # Define Loss function and Optimizer
         criterion = nn.CrossEntropyLoss()
-        optimizer = optim.SGD(self._net.parameters(), lr=0.001, momentum=0.9)
+        optimizer = optim.Adamax(self._net.parameters(), lr=0.001)
 
         # Use GPU if available
         device = self._set_device()
 
         start_time = time.perf_counter()
         train_loss_history = []
+        train_acc_history = []
 
         # Train the network
-        for epoch in range(30):
+        for epoch in range(10):
 
             running_loss = 0.0
             train_loss = 0.0
+            correct = 0
+            total = 0
 
             for i, data in enumerate(self._data_loader, 0):
-                # get the inputs; data is a list of [inputs, labels]
+                # data is a list of [inputs, labels]
                 inputs, labels = data[0].to(device), data[1].to(device)
 
-                # zero the parameter gradients
+                # clear the parameter gradients
                 optimizer.zero_grad()
 
                 # forward + backward + optimize
@@ -57,21 +60,30 @@ class Trainer:
                 loss.backward()
                 optimizer.step()
 
-                # print statistics and record history
-                running_loss += loss.item()
-                if i % 500 == 499:    # print every 500 mini-batches
-                    print('[%d, %5d] loss: %.3f' %
-                          (epoch + 1, i + 1, running_loss / 500))
-                    running_loss = 0.0
-
                 # calculate training accuracy and loss
+                _, predictions = torch.max(outputs, 1)
+                correct += (predictions == labels).sum().item()
+                total += labels.size(0)
                 train_loss += loss.item()
 
-            train_loss_history.append(train_loss/len(self._data_loader))
+                # print loss and accuracy every 500 mini-batches
+                running_loss += loss.item()
+                if i % 500 == 499:
+                    print('Epoch %d/10, %5d mini-batches, Loss: %.3f, Accuracy: %.3f' %
+                          (epoch + 1, i + 1, running_loss / 500, correct / total))
+                    running_loss = 0.0
 
+            train_loss_history.append(train_loss/len(self._data_loader))
+            train_acc_history.append(correct/total)
+
+        # print training time
         end_time = time.perf_counter()
         print(f'Finished training in {(end_time - start_time)/60:.2f} minutes.')
-        plt.plot(np.array(train_loss_history), 'r')
+
+        # plot training accuracy and loss curve
+        plt.plot(np.array(train_loss_history), 'b', label='Training Loss')
+        plt.plot(np.array(train_acc_history), 'y', label='Training Accuracy')
+        plt.legend()
         plt.show()
 
         self.save_network()

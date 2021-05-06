@@ -1,7 +1,4 @@
 import torch
-import torchvision
-import torch.nn as nn
-import torch.optim as optim
 
 class Tester:
 

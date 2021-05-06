@@ -2,7 +2,6 @@ import torch
 import torchvision
 import torchvision.transforms as transforms
 from CNN1 import CNN1
-from CNN4 import CNN4
 from Trainer import Trainer
 from Tester import Tester
 
