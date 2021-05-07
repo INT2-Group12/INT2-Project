@@ -32,7 +32,7 @@ class Tester:
                 correct += (predicted == labels).sum().item()
 
         accuracy = correct / total * 100
-        print('Accuracy of the network on the 10000 test images: %d %%' % accuracy)
+        print('Accuracy of the network on the 10000 test images: %.2f %%' % accuracy)
 
     def test_class_accuracy(self, classes):
 
@@ -55,4 +55,4 @@ class Tester:
         # print accuracy for each class
         for classname, correct_count in correct_classes.items():
             accuracy = 100 * float(correct_count) / total_classes[classname]
-            print("Accuracy for class {:5s} is: {:.1f} %".format(classname, accuracy))
+            print("Accuracy for class {:5s} is: {:.2f} %".format(classname, accuracy))
