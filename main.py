@@ -7,7 +7,7 @@ from Tester import Tester
 
 if __name__ == '__main__':
 
-    # Normalize dataset
+    # Data pre-processing and augmentation
     transform = transforms.Compose(
             [transforms.RandomHorizontalFlip(),
              transforms.RandomGrayscale(),

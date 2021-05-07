@@ -2,8 +2,13 @@ import torch
 import torch.nn as nn
 
 class CNN1(nn.Module):
-
+    """
+    This that represents a Convolutional Neural Network model. Subclass of nn.Module.
+    """
     def __init__(self):
+        """
+        The constructor for CNN1 class.
+        """
         super(CNN1, self).__init__()
 
         # Convolutional Layers
@@ -44,7 +49,9 @@ class CNN1(nn.Module):
         )
 
     def forward(self, x):
-        """Perform forward."""
+        """
+        Perform forward.
+        """
 
         # conv layers
         x = self.conv_layer(x)
