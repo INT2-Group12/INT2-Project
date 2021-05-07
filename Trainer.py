@@ -6,33 +6,71 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 class Trainer:
+    """
+    This is a class for training a Convolutional Neural Network.
+
+    Attributes:
+        net (CNN1): A subclass of nn.Module.
+        dataloader (DataLoader): Iterable over a dataset.
+    """
 
     def __init__(self, net, dataloader):
+        """
+        The constructor for Trainer class.
+
+        Args:
+            net (CNN1): A subclass of nn.Module.
+            dataloader (DataLoader): Iterable over a dataset.
+        """
         self._net = net()
         self._data_loader = dataloader
         self._save_location = './cifar_net.pth'
 
     def _set_device(self):
+        """
+        Move CPU Tensors with pinned memory to CUDA device if it is available.
+
+        Returns:
+            device: Available device - CUDA or CPU.
+        """
         device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         self._net.to(device)
         return device
 
     def save_network(self):
+        """
+        Save the model in its current state.
+        """
         torch.save(self._net.state_dict(), self._save_location)
 
     def get_network(self):
+        """
+        Get the model.
+
+        Returns:
+            self._net: Model, an instance of class CNN1.
+        """
         return self._net
 
     def get_save_location(self):
+        """
+        Get the save location.
+
+        Returns:
+            self._save_location: Path to the save location.
+        """
         return self._save_location
 
     def train(self):
+        """
+        Train the model and print out training data.
+        """
 
         # Define Loss function and Optimizer
         criterion = nn.CrossEntropyLoss()
         optimizer = optim.Adamax(self._net.parameters(), lr=0.001)
 
-        # Use GPU if available
+        # Use CUDA device if available
         device = self._set_device()
 
         start_time = time.perf_counter()
