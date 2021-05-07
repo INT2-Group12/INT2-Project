@@ -2,7 +2,7 @@ import torch
 
 class Tester:
 
-    def __init__(self, net, dataloader, batch_size=4):
+    def __init__(self, net, dataloader, batch_size=32):
         self._net = net()
         self._data_loader = dataloader
         self._batch_size = batch_size
