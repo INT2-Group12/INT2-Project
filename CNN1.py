@@ -3,7 +3,7 @@ import torch.nn as nn
 
 class CNN1(nn.Module):
     """
-    This that represents a Convolutional Neural Network model. Subclass of nn.Module.
+    This is a class that represents a Convolutional Neural Network model. Subclass of nn.Module.
     """
     def __init__(self):
         """
